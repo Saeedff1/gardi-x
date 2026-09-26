@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>راهنمای دستورات گاردی تلگرام</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#0b1020;color:#eef2ff}
+.wrap{max-width:1200px;margin:auto;padding:24px}
+.hero{padding:28px;border:1px solid #27314f;border-radius:24px;background:linear-gradient(135deg,#151d36,#0d1327);box-shadow:0 15px 50px #0005}
+h1{margin:0 0 8px;font-size:30px} .sub{color:#aeb8d6}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px} .stat{padding:10px 14px;border-radius:14px;background:#1b2542;border:1px solid #2a3658}
+.controls{position:sticky;top:10px;z-index:5;margin:18px 0;padding:14px;border-radius:18px;background:#10172bd9;backdrop-filter:blur(12px);border:1px solid #27314f}
+input,select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #34405f;background:#0c1326;color:#fff;font-size:15px}
+body.girl{background:#160d19}
+body.girl .hero{background:linear-gradient(135deg,#30142d,#160d20);border-color:#5a3156}
+body.girl .controls{background:#1b1020e8;border-color:#5a3156}
+body.girl .card{background:#1b1020;border-color:#4c2948}
+body.girl .card:hover{border-color:#b85da9}
+body.girl .stat,body.girl .badge,body.girl button{background:#2a1628;border-color:#563050}
+body.girl .cmd{color:#ff9ee9}
+body.girl .sub,body.girl footer{color:#c9a6c5}
+body.boy .hero{box-shadow:0 15px 50px #0007}
+body.girl .hero{box-shadow:0 15px 50px #6b1e5c55}
+.grid-controls{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px}
+.filters{display:flex;gap:8px;flex-wrap:wrap} button{border:1px solid #34405f;background:#151e36;color:#dfe7ff;padding:9px 12px;border-radius:12px;cursor:pointer}
+button.active{background:#27365f;border-color:#5b78c9}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{background:#11182b;border:1px solid #27314f;border-radius:18px;padding:16px;transition:.15s}
+.card:hover{transform:translateY(-2px);border-color:#4d659f}
+.cmd{font-family:ui-monospace,Consolas,monospace;font-size:19px;font-weight:700;color:#9fc0ff}
+.desc{margin:9px 0;color:#d9def0;line-height:1.8}
+.meta{display:flex;gap:7px;flex-wrap:wrap;font-size:12px}
+.badge{padding:5px 8px;border-radius:9px;background:#1c2742;color:#b9c8ef}
+.alias{margin-top:10px;color:#9da9c7;font-size:13px;line-height:1.7}
+.empty{display:none;text-align:center;padding:35px;color:#aeb8d6}
+footer{margin-top:25px;color:#7783a4;font-size:12px;line-height:1.8}
+@media(max-width:650px){.wrap{padding:14px}.grid-controls{grid-template-columns:1fr}h1{font-size:24px}}
+</style>
+</head>
+<body class="boy">
+<div class="wrap">
+<section class="hero">
+<h1>🛡️ راهنمای دستورات گاردی</h1>
+<div class="sub">فهرست حرفه‌ای دستورات استخراج‌شده از فایل <b>گاردی_تلگرام.py</b> — نسخه 10.0.0</div>
+<div class="stats">
+<div class="stat">📦 76 دستور ثبت‌شده</div>
+<div class="stat">🧩 67 مسیر اصلی</div>
+<div class="stat">🔤 60 دستور دارای معادل فارسی</div>
+</div>
+</section>
+
+<div class="controls">
+<div class="grid-controls">
+<input id="q" placeholder="جستجو: /ban یا بن یا تگ همه ...">
+<select id="gender">
+<option value="boy">🧑 حالت پسرانه</option>
+<option value="girl">👩 حالت دخترانه</option>
+</select>
+</div>
+<div class="grid-controls">
+<select id="perm">
+<option value="">همه سطح‌ها</option>
+<option value="MEMBER">همه اعضا</option>
+<option value="ADMIN">ادمین</option>
+<option value="SUPER_ADMIN">مدیر ارشد</option>
+<option value="OWNER">مالک</option>
+</select>
+</div>
+<div class="filters" id="filters"></div>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty">دستوری با این جستجو پیدا نشد.</div>
+
+<footer>
+این صفحه بر اساس دستورات قابل‌ردیابی در کد فعلی ساخته شده است. سطح دسترسی و معادل‌های فارسی از ساختار خود فایل استخراج شده‌اند؛
+ممکن است بعضی ورودی‌های قدیمی یا رشته‌هایی که صرفاً در متن/کامنت آمده‌اند، جزو دستورات فعال نباشند.
+</footer>
+</div>
+<script>
+const data = [{"cmd": "/about", "desc": "درباره ربات", "perm": "MEMBER", "aliases": [], "cat": "ℹ️ عمومی"}, {"cmd": "/maxwarn", "desc": "حداکثر اخطار", "perm": "ADMIN", "aliases": [], "cat": "ℹ️ عمومی"}, {"cmd": "/muteduration", "desc": "مدت سکوت پیش‌فرض", "perm": "ADMIN", "aliases": [], "cat": "ℹ️ عمومی"}, {"cmd": "/start", "desc": "شروع ربات", "perm": "MEMBER", "aliases": [], "cat": "ℹ️ عمومی"}, {"cmd": "/support", "desc": "پشتیبانی", "perm": "MEMBER", "aliases": [], "cat": "ℹ️ عمومی"}, {"cmd": "/font", "desc": "فونت", "perm": "MEMBER", "aliases": ["فونت"], "cat": "🎨 ظاهر"}, {"cmd": "/set_theme", "desc": "تنظیم تم", "perm": "ADMIN", "aliases": ["تنظیم تم"], "cat": "🎨 ظاهر"}, {"cmd": "/theme", "desc": "پنل تم", "perm": "MEMBER", "aliases": ["تم", "پنل تم"], "cat": "🎨 ظاهر"}, {"cmd": "/bio", "desc": "نمایش/اجرای بیو", "perm": "MEMBER", "aliases": ["بیو"], "cat": "🎮 سرگرمی"}, {"cmd": "/challenge", "desc": "چالش", "perm": "MEMBER", "aliases": ["چالش"], "cat": "🎮 سرگرمی"}, {"cmd": "/dare", "desc": "جرأت", "perm": "MEMBER", "aliases": ["جرات", "جرأت"], "cat": "🎮 سرگرمی"}, {"cmd": "/fal", "desc": "فال", "perm": "MEMBER", "aliases": ["فال"], "cat": "🎮 سرگرمی"}, {"cmd": "/funfact", "desc": "حقیقت جالب", "perm": "MEMBER", "aliases": ["حقیقت جالب"], "cat": "🎮 سرگرمی"}, {"cmd": "/joke", "desc": "جوک", "perm": "MEMBER", "aliases": ["شوخی", "جوک"], "cat": "🎮 سرگرمی"}, {"cmd": "/khater", "desc": "خاطره", "perm": "MEMBER", "aliases": ["خاطره"], "cat": "🎮 سرگرمی"}, {"cmd": "/motivation", "desc": "جمله انگیزشی", "perm": "MEMBER", "aliases": ["جمله انگیزشی", "انگیزشی"], "cat": "🎮 سرگرمی"}, {"cmd": "/penalty", "desc": "پنالتی", "perm": "MEMBER", "aliases": ["پنالتی"], "cat": "🎮 سرگرمی"}, {"cmd": "/penalty_dare", "desc": "پنالتی چالش", "perm": "MEMBER", "aliases": ["پنالتی چالش"], "cat": "🎮 سرگرمی"}, {"cmd": "/proverb", "desc": "ضرب‌المثل", "perm": "MEMBER", "aliases": ["ضرب المثل", "ضرب‌المثل"], "cat": "🎮 سرگرمی"}, {"cmd": "/riddle", "desc": "معما", "perm": "MEMBER", "aliases": ["معما"], "cat": "🎮 سرگرمی"}, {"cmd": "/story", "desc": "داستان", "perm": "MEMBER", "aliases": ["داستان"], "cat": "🎮 سرگرمی"}, {"cmd": "/truth", "desc": "حقیقت", "perm": "MEMBER", "aliases": ["حقیقت"], "cat": "🎮 سرگرمی"}, {"cmd": "/truth_or_dare", "desc": "حقیقت یا جرأت", "perm": "MEMBER", "aliases": ["جرات یا حقیقت", "جرأت یا حقیقت", "حقیقت یا جرات", "حقیقت یا جرأت"], "cat": "🎮 سرگرمی"}, {"cmd": "/addadmin", "desc": "افزودن ادمین", "perm": "OWNER", "aliases": ["ادمین"], "cat": "👑 مدیریت ربات"}, {"cmd": "/addowner", "desc": "افزودن مالک", "perm": "OWNER", "aliases": ["افزودن مالک"], "cat": "👑 مدیریت ربات"}, {"cmd": "/addspecial", "desc": "افزودن ویژه", "perm": "OWNER", "aliases": ["ویژه"], "cat": "👑 مدیریت ربات"}, {"cmd": "/admin", "desc": "منوی مدیریت", "perm": "ADMIN", "aliases": [], "cat": "👑 مدیریت ربات"}, {"cmd": "/admins", "desc": "لیست مدیران", "perm": "MEMBER", "aliases": ["مدیران"], "cat": "👑 مدیریت ربات"}, {"cmd": "/backup", "desc": "گرفتن بکاپ", "perm": "SUPER_ADMIN", "aliases": ["بکاپ"], "cat": "👑 مدیریت ربات"}, {"cmd": "/backups", "desc": "لیست بکاپ‌ها", "perm": "SUPER_ADMIN", "aliases": ["لیست بکاپ", "بکاپ ها"], "cat": "👑 مدیریت ربات"}, {"cmd": "/exempts", "desc": "لیست معاف‌ها", "perm": "MEMBER", "aliases": ["معاف ها", "معافها"], "cat": "👑 مدیریت ربات"}, {"cmd": "/removeadmin", "desc": "حذف ادمین", "perm": "OWNER", "aliases": ["حذف ادمین", "برکناری ادمین"], "cat": "👑 مدیریت ربات"}, {"cmd": "/removeowner", "desc": "حذف مالک", "perm": "OWNER", "aliases": ["حذف مالک", "برکناری مالک"], "cat": "👑 مدیریت ربات"}, {"cmd": "/removespecial", "desc": "حذف ویژه", "perm": "OWNER", "aliases": ["حذف ویژه", "برکناری ویژه"], "cat": "👑 مدیریت ربات"}, {"cmd": "/restore", "desc": "بازگردانی بکاپ", "perm": "SUPER_ADMIN", "aliases": ["بازیابی", "بازگردانی"], "cat": "👑 مدیریت ربات"}, {"cmd": "/specials", "desc": "لیست ویژه‌ها", "perm": "MEMBER", "aliases": ["ویژه ها", "ویژهها"], "cat": "👑 مدیریت ربات"}, {"cmd": "/announce", "desc": "ارسال اعلان", "perm": "ADMIN", "aliases": ["اعلان"], "cat": "👥 ابزار گروه"}, {"cmd": "/delete_link", "desc": "حذف لینک گروه", "perm": "ADMIN", "aliases": ["حذف لینک"], "cat": "👥 ابزار گروه"}, {"cmd": "/link", "desc": "لینک گروه", "perm": "MEMBER", "aliases": ["لینک"], "cat": "👥 ابزار گروه"}, {"cmd": "/members", "desc": "لیست اعضا", "perm": "MEMBER", "aliases": [], "cat": "👥 ابزار گروه"}, {"cmd": "/rules", "desc": "نمایش قوانین", "perm": "MEMBER", "aliases": ["قوانین"], "cat": "👥 ابزار گروه"}, {"cmd": "/set_link", "desc": "تنظیم لینک گروه", "perm": "ADMIN", "aliases": ["تنظیم لینک"], "cat": "👥 ابزار گروه"}, {"cmd": "/setgoodbye", "desc": "تنظیم خداحافظی", "perm": "ADMIN", "aliases": [], "cat": "👥 ابزار گروه"}, {"cmd": "/setrules", "desc": "تنظیم قوانین", "perm": "ADMIN", "aliases": [], "cat": "👥 ابزار گروه"}, {"cmd": "/setwelcome", "desc": "تنظیم خوش‌آمدگویی", "perm": "ADMIN", "aliases": [], "cat": "👥 ابزار گروه"}, {"cmd": "/tag", "desc": "تگ کاربر", "perm": "MEMBER", "aliases": [], "cat": "👥 ابزار گروه"}, {"cmd": "/tagall", "desc": "تگ همه اعضا", "perm": "ADMIN", "aliases": ["تگ همه", "تگهمه"], "cat": "👥 ابزار گروه"}, {"cmd": "/tagbots", "desc": "تگ ربات‌ها", "perm": "MEMBER", "aliases": [], "cat": "👥 ابزار گروه"}, {"cmd": "/gstats", "desc": "آمار گروه", "perm": "MEMBER", "aliases": ["آمار گروه"], "cat": "📊 آمار و سطح"}, {"cmd": "/level", "desc": "سطح کاربر", "perm": "MEMBER", "aliases": ["سطح"], "cat": "📊 آمار و سطح"}, {"cmd": "/mystats", "desc": "آمار من", "perm": "MEMBER", "aliases": ["آمار", "آمار من"], "cat": "📊 آمار و سطح"}, {"cmd": "/antilink", "desc": "ضدلینک", "perm": "SUPER_ADMIN", "aliases": ["ضدلینک"], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/antispam", "desc": "ضداسپم", "perm": "SUPER_ADMIN", "aliases": ["ضداسپم"], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/antiswear", "desc": "ضدفحش", "perm": "SUPER_ADMIN", "aliases": ["ضدفحش"], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/filters", "desc": "لیست فیلترها", "perm": "ADMIN", "aliases": ["فیلترها"], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/linklockoff", "desc": "غیرفعال‌سازی قفل لینک", "perm": "SUPER_ADMIN", "aliases": ["لینک باز", "باز لینک"], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/linklockon", "desc": "فعال‌سازی قفل لینک", "perm": "SUPER_ADMIN", "aliases": ["لینک قفل", "قفل لینک"], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/lock", "desc": "قفل گروه", "perm": "SUPER_ADMIN", "aliases": ["قفل"], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/locks", "desc": "نمایش قفل‌ها", "perm": "MEMBER", "aliases": [], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/locktype", "desc": "قفل نوع محتوا", "perm": "MEMBER", "aliases": [], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/setspam", "desc": "تنظیم اسپم", "perm": "MEMBER", "aliases": [], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/unlocktype", "desc": "باز کردن نوع محتوا", "perm": "MEMBER", "aliases": [], "cat": "🔐 امنیت و تنظیمات"}, {"cmd": "/ban", "desc": "بن کردن کاربر", "perm": "ADMIN", "aliases": ["بن"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/block", "desc": "مسدود کردن کاربر", "perm": "ADMIN", "aliases": ["مسدود"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/clear", "desc": "پاکسازی پیام‌ها", "perm": "ADMIN", "aliases": ["پاکسازی", "حذف"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/exempt", "desc": "افزودن معاف", "perm": "ADMIN", "aliases": ["معاف"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/kick", "desc": "اخراج کاربر", "perm": "ADMIN", "aliases": ["اخراج"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/mute", "desc": "ساکت کردن کاربر", "perm": "ADMIN", "aliases": ["سکوت", "میوت"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/unban", "desc": "رفع بن", "perm": "ADMIN", "aliases": ["آنبن", "رفع بن"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/unblock", "desc": "رفع مسدودی", "perm": "ADMIN", "aliases": ["آنبلاک", "رفع مسدود"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/unexempt", "desc": "حذف معاف", "perm": "ADMIN", "aliases": ["حذف معاف"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/unmute", "desc": "رفع سکوت", "perm": "ADMIN", "aliases": ["آنسکوت", "رفع سکوت"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/unwarn", "desc": "رفع اخطار", "perm": "ADMIN", "aliases": ["رفع اخطار"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/warn", "desc": "اخطار دادن", "perm": "ADMIN", "aliases": ["اخطار"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/warnaction", "desc": "عمل بعد از اخطار", "perm": "ADMIN", "aliases": ["اقدام اخطار"], "cat": "🛡️ مدیریت کاربران"}, {"cmd": "/warnexpire", "desc": "انقضای اخطار", "perm": "ADMIN", "aliases": ["انقضای اخطار"], "cat": "🛡️ مدیریت کاربران"}];
+const grid = document.getElementById('grid');
+const q = document.getElementById('q');
+const perm = document.getElementById('perm');
+const gender = document.getElementById('gender');
+const filters = document.getElementById('filters');
+const empty = document.getElementById('empty');
+let cat = '';
+
+const cats = ['همه', ...new Set(data.map(x=>x.cat))];
+cats.forEach((name,i)=>{
+  const b=document.createElement('button');
+  b.textContent=name;
+  if(i===0) b.classList.add('active');
+  b.onclick=()=>{
+    cat = i===0 ? '' : name;
+    document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); render();
+  };
+  filters.appendChild(b);
+});
+
+function render(){
+  const term=q.value.trim().toLowerCase();
+  const p=perm.value;
+  const list=data.filter(x=>{
+    const hay=[x.cmd,x.desc,x.cat,...x.aliases].join(' ').toLowerCase();
+    return (!term || hay.includes(term)) && (!p || x.perm===p) && (!cat || x.cat===cat);
+  });
+  grid.innerHTML=list.map(x=>`
+    <article class="card">
+      <div class="cmd">${esc(x.cmd)}</div>
+      <div class="desc">${esc(x.desc)}</div>
+      <div class="meta">
+        <span class="badge">${esc(x.cat)}</span>
+        <span class="badge">${esc({"MEMBER": "همه اعضا", "ADMIN": "ادمین", "SUPER_ADMIN": "مدیر ارشد", "OWNER": "مالک"}[x.perm] || x.perm)}</span>
+      </div>
+      ${x.aliases.length ? `<div class="alias">🇮🇷 معادل‌ها: ${x.aliases.map(esc).join('، ')}</div>` : ''}
+    </article>`).join('');
+  empty.style.display=list.length?'none':'block';
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+q.addEventListener('input',render);
+perm.addEventListener('change',render);
+gender.addEventListener('change',()=>{
+  document.body.classList.remove('boy','girl');
+  document.body.classList.add(gender.value);
+  document.querySelector('h1').textContent =
+    gender.value === 'girl' ? '🌸 راهنمای دستورات گاردی — دخترونه' : '🛡️ راهنمای دستورات گاردی — پسرونه';
+  render();
+});
+render();
+</script>
+</body>
+</html>

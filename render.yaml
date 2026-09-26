@@ -1,0 +1,26 @@
+services:
+  - type: worker
+    name: gardi-x-bot
+    runtime: python
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: python "گاردی_ایکس_10.0.0_ai_fixed.py"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: BOT_TOKEN
+        sync: false
+      - key: SUPER_OWNERS
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: NAVASAN_API_KEY
+        sync: false
+      - key: SUPPORT_LINK
+        sync: false
+      - key: FORCE_JOIN_CHANNEL_GUID
+        sync: false
+      - key: FORCE_JOIN_CHANNEL_LINK
+        sync: false
